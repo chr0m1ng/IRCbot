@@ -1,21 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
-import os
 import socket
 import time
 import string
-from imgurpython import ImgurClient
-
-def uploadToImgur(path):
-	CLIENT_ID = os.environ.get('CLIENT_ID')
-	CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-
-	try:
-		client = ImgurClient(CLIENT_ID, CLIENT_SECRET)
-		image = client.upload_from_path(path)
-		return image['link']
-	except Exception as e:
-		return "Ocorreu um erro: " + e
 
 HOST="localhost"
 PORT=6667
@@ -84,8 +71,3 @@ while 1:
 							s.send("NICK %s\r\n" % (NICK))
 						else:
 							s.send("PRIVMSG %s Sai fora %s otario, tu não manda em mim\r\n" % (CHANNEL, line[0].split("!")[0].replace(":", "")))
-				elif(line[3] == ":!enviarImg"):
-					if(len(line) > 4):
-						s.send("PRIVMSG %s Ai o link da sua imagem meu persa: %s\r\n" % (CHANNEL, uploadToImgur(line[4])))
-					else:
-						s.send("PRIVMSG %s Coloca o path da imagem arrombed\r\n" % (CHANNEL))
